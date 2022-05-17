@@ -11,6 +11,7 @@ import { PassengerClassesPage } from "./pages/PassengerClassesPage";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./theme";
 import { LoginPage } from "./pages/LoginPage/index";
+import { SignupPage } from "./pages/SignupPage";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Router>
           <Routes>
             <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/signup" element={<SignupPage />} />
             <Route
               exact
               path="/"

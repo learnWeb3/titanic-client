@@ -1,13 +1,14 @@
 import { Grid, Typography, Button, Link } from "@mui/material";
 import { InputWithValidation } from "../InputWithValidation";
 import { useEffect, useState } from "react";
-import { validateEmail } from "../../validators";
+import { validateEmail, validateSameValue } from "../../validators";
 import { validatePassword } from "../../validators/index";
 import { useNavigate } from "react-router-dom";
 
-export const Login = ({}) => {
+export const SignUp = ({}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
   const [validations, setValidations] = useState({
     email: {
@@ -15,6 +16,10 @@ export const Login = ({}) => {
       message: "",
     },
     password: {
+      valid: true,
+      message: "",
+    },
+    passwordConfirmation: {
       valid: true,
       message: "",
     },
@@ -45,7 +50,28 @@ export const Login = ({}) => {
   }, [password]);
 
   useEffect(() => {
-    if (validations.email.valid && validations.password.valid) {
+    const { errors, valid } = validateSameValue(
+      password,
+      passwordConfirmation,
+      "password",
+      "password confirmation"
+    );
+    setValidations({
+      ...validations,
+      passwordConfirmation: {
+        ...validations.passwordConfirmation,
+        valid: valid,
+        message: errors.join(","),
+      },
+    });
+  }, [password, passwordConfirmation]);
+
+  useEffect(() => {
+    if (
+      validations.email.valid &&
+      validations.password.valid &&
+      validations.passwordConfirmation.valid
+    ) {
       setFormIsValid(true);
     } else {
       setFormIsValid(false);
@@ -69,9 +95,9 @@ export const Login = ({}) => {
       }}
     >
       <Grid item xs={12} lg={6} container spacing={4}>
-        <Grid item xs={12} marginBottom={4}>
+        <Grid item xs={12}>
           <Typography variant="h4" component="h1">
-            Sign In
+            Sign Up
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -80,7 +106,9 @@ export const Login = ({}) => {
             setValue={setEmail}
             value={email}
             helperText={
-              validations.email.valid ? "required" : validations.email.message
+              validations.email.valid
+                ? "Must be a valid email"
+                : validations.email.message
             }
             error={!validations.email.valid}
             type={"email"}
@@ -92,10 +120,23 @@ export const Login = ({}) => {
             type={"password"}
             helperText={
               validations.password.valid
-                ? "required"
+                ? "Must contains capital letters, lowercased letters, numbers and special characters"
                 : validations.password.message
             }
             error={!validations.password.valid}
+          />
+
+          <InputWithValidation
+            label={"password confirmation"}
+            setValue={setPasswordConfirmation}
+            value={passwordConfirmation}
+            type={"password"}
+            helperText={
+              validations.password.valid
+                ? "Must be the same as password field"
+                : validations.passwordConfirmation.message
+            }
+            error={!validations.passwordConfirmation.valid}
           />
           <Button
             disabled={!formIsValid}
@@ -103,13 +144,12 @@ export const Login = ({}) => {
             color="success"
             variant="contained"
           >
-            LOGIN
+            SIGNUP
           </Button>
         </Grid>
-
         <Grid item xs={12}>
-          <Link onClick={handleClick} href="/signup" color="inherit">
-            Not registred yet ? Sign up.
+          <Link onClick={handleClick} href="/login" color="inherit">
+            Already have an account ? Sign in.
           </Link>
         </Grid>
       </Grid>

@@ -147,6 +147,18 @@ const mergeValidate = (value, validations) => {
   };
 };
 
+export const validateSameValue = (valueA, valueB, fieldNameA, fieldNameB) => {
+  const errors = [];
+  if (valueA !== valueB) {
+    errors.push(`${fieldNameA} must equal ${fieldNameB}`);
+  }
+
+  return {
+    errors,
+    valid: errors.length === 0,
+  };
+};
+
 export const validatePassword = (value) =>
   mergeValidate(value, [
     validateNotNull,
