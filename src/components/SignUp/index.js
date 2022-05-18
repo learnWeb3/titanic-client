@@ -4,8 +4,19 @@ import { useEffect, useState } from "react";
 import { validateEmail, validateSameValue } from "../../validators";
 import { validatePassword } from "../../validators/index";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../services/http/requests";
+import { useAlert } from "../../hooks/index";
+import { Alert } from "../Alert";
 
 export const SignUp = ({}) => {
+  const {
+    toggled,
+    setToggled,
+    alertMessage,
+    setAlertMessage,
+    alertSeverity,
+    setAlertSeverity,
+  } = useAlert();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -24,6 +35,35 @@ export const SignUp = ({}) => {
       message: "",
     },
   });
+
+  useEffect(()=>{
+    const { errors:emailErrors, valid:emailIsValid } = validateEmail(email);
+    const { errors:errorsPassword, valid:passwordIsValid } = validatePassword(password);
+    const { errors:errorsPasswordConfirmation, valid: passwordConfirmationIsValid } = validateSameValue(
+      password,
+      passwordConfirmation,
+      "password",
+      "password confirmation"
+    );
+    setValidations({
+      ...validations,
+      email: {
+        ...validations.email,
+        valid: emailIsValid,
+        message: emailErrors.join(","),
+      },
+      password: {
+        ...validations.password,
+        valid: passwordIsValid,
+        message: errorsPassword.join(","),
+      },
+      passwordConfirmation: {
+        ...validations.passwordConfirmation,
+        valid: passwordConfirmationIsValid,
+        message: errorsPasswordConfirmation.join(","),
+      },
+    });
+  })
 
   useEffect(() => {
     const { errors, valid } = validateEmail(email);
@@ -80,8 +120,36 @@ export const SignUp = ({}) => {
 
   const navigate = useNavigate();
   const handleClick = (event) => {
-    const { href } = event.target;
-    navigate(href);
+    event.preventDefault();
+    const {
+      dataset: { path },
+    } = event.target;
+    navigate(path, { replace: true });
+  };
+
+  const handleRegister = async () => {
+    let message, severity;
+    try {
+      await register({
+        email,
+        password,
+      });
+      severity="success";
+      message = {
+        title: "Success",
+        content: "Account created with success, sign in to access the platform",
+      };
+    } catch (error) {
+      severity="error";
+      message = {
+        title: "Error",
+        content: "Account creation error, please double check your input",
+      };
+    }finally{
+      setAlertSeverity(severity);
+      setAlertMessage(message);
+      setToggled(true);
+    }
   };
 
   return (
@@ -143,14 +211,32 @@ export const SignUp = ({}) => {
             size="large"
             color="success"
             variant="contained"
+            onClick={handleRegister}
           >
             SIGNUP
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Link onClick={handleClick} href="/login" color="inherit">
+          <Link
+            onClick={handleClick}
+            data-path={"/login"}
+            href="/login"
+            color="inherit"
+          >
             Already have an account ? Sign in.
           </Link>
+        </Grid>
+        <Grid item xs={12}>
+          {toggled ? (
+            <Alert
+              severity={alertSeverity}
+              title={alertMessage.title}
+              content={alertMessage.content}
+              setToggled={setToggled}
+            />
+          ) : (
+            <p>&nbsp;</p>
+          )}
         </Grid>
       </Grid>
     </Grid>

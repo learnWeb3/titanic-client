@@ -4,21 +4,41 @@ import { useEffect, useState } from "react";
 import { validateEmail } from "../../validators";
 import { validatePassword } from "../../validators/index";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "../Alert";
+import { useAlert } from "../../hooks/index";
+import { login } from "../../services/http/requests";
+import { setUser } from "../../stores/user";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Login = ({}) => {
+  const {
+    toggled,
+    setToggled,
+    alertMessage,
+    setAlertMessage,
+    alertSeverity,
+    setAlertSeverity,
+  } = useAlert();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
   const [validations, setValidations] = useState({
     email: {
-      valid: true,
+      valid: false,
       message: "",
     },
     password: {
-      valid: true,
+      valid: false,
       message: "",
     },
   });
+
+  const currentUser = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    currentUser && navigate("/", { replace: true });
+  }, [currentUser]);
 
   useEffect(() => {
     const { errors, valid } = validateEmail(email);
@@ -54,8 +74,33 @@ export const Login = ({}) => {
 
   const navigate = useNavigate();
   const handleClick = (event) => {
-    const { href } = event.target;
-    navigate(href);
+    event.preventDefault();
+    const {
+      dataset: { path },
+    } = event.target;
+    navigate(path, { replace: true });
+  };
+
+  const dispatch = useDispatch();
+  const handleSignin = async (event) => {
+    event.preventDefault();
+    try {
+      const { data, status } = await login({
+        email,
+        password,
+      });
+      dispatch(setUser(data.token));
+    } catch (error) {
+      severity = "error";
+      message = {
+        title: "Error",
+        content: "Login error, please double check your input",
+      };
+      let message, severity;
+      setAlertSeverity(severity);
+      setAlertMessage(message);
+      setToggled(true);
+    }
   };
 
   return (
@@ -102,15 +147,34 @@ export const Login = ({}) => {
             size="large"
             color="success"
             variant="contained"
+            onClick={handleSignin}
           >
             LOGIN
           </Button>
         </Grid>
 
         <Grid item xs={12}>
-          <Link onClick={handleClick} href="/signup" color="inherit">
+          <Link
+            onClick={handleClick}
+            data-path="/signup"
+            href="/signup"
+            color="inherit"
+          >
             Not registred yet ? Sign up.
           </Link>
+        </Grid>
+
+        <Grid item xs={12}>
+          {toggled ? (
+            <Alert
+              severity={alertSeverity}
+              title={alertMessage.title}
+              content={alertMessage.content}
+              setToggled={setToggled}
+            />
+          ) : (
+            <p>&nbsp;</p>
+          )}
         </Grid>
       </Grid>
     </Grid>

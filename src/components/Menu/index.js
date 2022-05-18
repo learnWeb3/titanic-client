@@ -4,19 +4,33 @@ import MenuList from "@mui/material/MenuList";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import WcIcon from "@mui/icons-material/Wc";
+import HomeIcon from "@mui/icons-material/Home";
 import { FormattedMenuItem } from "../FormattedMenuItem";
 import { FormattedMenuHeader } from "../FormattedMenuHeader";
 
 export const Menu = () => {
   return (
     <Paper
-      sx={{ width: "100%", height: "100%", backgroundColor: "primary.main" }}
+      sx={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "primary.main",
+        position: "sticky",
+        top: 0,
+      }}
     >
       <MenuList>
         <FormattedMenuHeader
           label={"Menu"}
           labelVariant={"h4"}
           labelComponent={"h2"}
+        />
+        <FormattedMenuItem
+          label={"Home"}
+          icon={HomeIcon}
+          navigatePath={"/"}
+          labelVariant={"h6"}
+          labelComponent={"p"}
         />
         <FormattedMenuItem
           label={"Passengers age"}

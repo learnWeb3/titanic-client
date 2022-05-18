@@ -149,10 +149,15 @@ const mergeValidate = (value, validations) => {
 
 export const validateSameValue = (valueA, valueB, fieldNameA, fieldNameB) => {
   const errors = [];
+  if (valueA === "") {
+    errors.push(`${fieldNameA} can't be empty`);
+  }
+  if (valueB === "") {
+    errors.push(`${fieldNameB} can't be empty`);
+  }
   if (valueA !== valueB) {
     errors.push(`${fieldNameA} must equal ${fieldNameB}`);
   }
-
   return {
     errors,
     valid: errors.length === 0,

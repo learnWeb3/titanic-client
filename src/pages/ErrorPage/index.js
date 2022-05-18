@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { Error } from "../../components/Error";
 
-export const ErrorPage = ({}) => {
+export const ErrorPage = ({ code = 404, message = "Page Not found" }) => {
   return (
     <div
       style={{
@@ -11,7 +11,7 @@ export const ErrorPage = ({}) => {
         alignItems: "center",
       }}
     >
-      <Error />
+      <Error code={code} message={message} />
     </div>
   );
 };

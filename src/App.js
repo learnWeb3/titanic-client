@@ -14,6 +14,7 @@ import { LoginPage } from "./pages/LoginPage/index";
 import { SignupPage } from "./pages/SignupPage";
 
 const App = () => {
+
   return (
     <Context.Provider value={{}}>
       <ThemeProvider theme={theme}>

@@ -5,7 +5,7 @@ export const ImageSignup = () => {
     <img
       src={imageSignup}
       style={{
-        height: "25rem",
+        width: "25rem",
       }}
     />
   );
