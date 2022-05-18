@@ -12,9 +12,9 @@ import { ThemeProvider } from "@emotion/react";
 import { theme } from "./theme";
 import { LoginPage } from "./pages/LoginPage/index";
 import { SignupPage } from "./pages/SignupPage";
+import { LogoutPage } from './pages/LogoutPage/index';
 
 const App = () => {
-
   return (
     <Context.Provider value={{}}>
       <ThemeProvider theme={theme}>
@@ -22,6 +22,11 @@ const App = () => {
           <Routes>
             <Route exact path="/login" element={<LoginPage />} />
             <Route exact path="/signup" element={<SignupPage />} />
+            <Route
+              exact
+              path="/logout"
+              element={<AuthenticatedRoute component={LogoutPage} />}
+            />
             <Route
               exact
               path="/"

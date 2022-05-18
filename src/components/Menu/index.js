@@ -7,6 +7,8 @@ import WcIcon from "@mui/icons-material/Wc";
 import HomeIcon from "@mui/icons-material/Home";
 import { FormattedMenuItem } from "../FormattedMenuItem";
 import { FormattedMenuHeader } from "../FormattedMenuHeader";
+import { Logout } from "../Logout/index";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const Menu = () => {
   return (
@@ -17,6 +19,9 @@ export const Menu = () => {
         backgroundColor: "primary.main",
         position: "sticky",
         top: 0,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
     >
       <MenuList>
@@ -50,6 +55,16 @@ export const Menu = () => {
           label={"Passengers sex"}
           icon={WcIcon}
           navigatePath={"/sex"}
+          labelVariant={"h6"}
+          labelComponent={"p"}
+        />
+      </MenuList>
+
+      <MenuList>
+        <FormattedMenuItem
+          label={"Log out"}
+          icon={LogoutIcon}
+          navigatePath={"/logout"}
           labelVariant={"h6"}
           labelComponent={"p"}
         />
