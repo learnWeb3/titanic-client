@@ -1,4 +1,5 @@
 import { http } from "../index";
+import queryString from "query-string";
 
 export const register = async (
   data = {
@@ -20,6 +21,18 @@ export const login = async (
 
 export const fetchPassengers = async (token) => {
   return await http.get("/passengers", {
-    headers: `Authorization: Bearer ${token}`,
+    headers: {
+      "Authorization": `Bearer ${token}`
+    },
+  });
+};
+
+export const fetchStats = async (token, queryParams = {}) => {
+  const _queryString = queryString.stringify(queryParams);
+  const uri = !_queryString ? "/passengers/stats" : `/passengers/stats?${_queryString}`;
+  return await http.get(uri, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    },
   });
 };

@@ -9,13 +9,20 @@ export const PageLayout = ({ component: Component, ...otherProps }) => {
         xs={3}
         sx={{
           height: "100vh",
+          position: "sticky",
+          top: 0,
         }}
       >
         <Menu />
       </Grid>
-      <Grid item xs={9} p={4} sx={{
-        backgroundColor: '#e8eaf6'
-      }}>
+      <Grid
+        item
+        xs={9}
+        p={4}
+        sx={{
+          backgroundColor: "#e8eaf6",
+        }}
+      >
         <Component {...otherProps} />
       </Grid>
     </Grid>

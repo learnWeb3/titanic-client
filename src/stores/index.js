@@ -1,9 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import passengers from "./passengers";
 import user from "./user";
+import classes from "./classes";
+import sexes from "./sexes";
+import ages from "./ages";
 
 const rootReducer = combineReducers({
-  passengers: passengers,
+  ages: ages,
+  sexes: sexes,
+  classes: classes,
   user: user,
 });
 
