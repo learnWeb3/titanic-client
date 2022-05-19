@@ -53,7 +53,7 @@ export const PassengerAge = ({}) => {
                   strokeColor: '#C23829'
                 }
               ]
-            }
+            },
           ],
         });
       };

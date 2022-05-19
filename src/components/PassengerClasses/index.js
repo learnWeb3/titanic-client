@@ -99,7 +99,7 @@ export const PassengerClasses = ({}) => {
                     y: data.died[_class].maxCount,
                     fillColor: "#DC143C",
                     strokeColor: "#C23829",
-                  }
+                  },
                 ],
               },
             ],
@@ -108,7 +108,7 @@ export const PassengerClasses = ({}) => {
 
         const survivedPassengersChartsData = Object.keys(data.survived).map(
           (_class) => ({
-            title: `Died passengers age distribution in class ${_class}`,
+            title: `Survived passengers age distribution in class ${_class}`,
             xAxisCategories: data.survived[_class].data.map(
               ({ age }) => `${age}`
             ),
@@ -125,12 +125,12 @@ export const PassengerClasses = ({}) => {
                 data: [
                   {
                     x: data.survived[_class].mean,
-                  y: data.survived[_class].maxCount,
-                  fillColor: "#DC143C",
-                  strokeColor: "#C23829",
-                  }
+                    y: data.survived[_class].maxCount,
+                    fillColor: "#DC143C",
+                    strokeColor: "#C23829",
+                  },
                 ],
-              },
+              }
             ],
           })
         );
@@ -215,6 +215,24 @@ export const PassengerClasses = ({}) => {
       {ageDistributionByClass &&
         ageDistributionByClass.died.length &&
         ageDistributionByClass.died.map(
+          ({ title, xAxisCategories, series }, index) => (
+            <Grid item xs={12} lg={6}>
+              {passengerRepartitionByClass && (
+                <IndicatorPanel
+                  key={index}
+                  component={BarChart}
+                  title={title}
+                  xAxisCategories={xAxisCategories}
+                  series={series}
+                />
+              )}
+            </Grid>
+          )
+        )}
+
+      {ageDistributionByClass &&
+        ageDistributionByClass.survived.length &&
+        ageDistributionByClass.survived.map(
           ({ title, xAxisCategories, series }, index) => (
             <Grid item xs={12} lg={6}>
               {passengerRepartitionByClass && (
