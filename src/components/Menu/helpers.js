@@ -30,3 +30,4 @@ export const searchResults = [
     anchor: "ages-analysis-by-class",
   },
 ];
+

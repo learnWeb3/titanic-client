@@ -157,7 +157,15 @@ export const PassengerClasses = ({}) => {
       "deaths-by-genders-and-classes",
       "ages-analysis-by-class",
     ],
-    state
+    state,
+    [
+      passengerRepartitionByClass,
+      deathNumberRepartitionByClass,
+      deathRepartitionByGenderAndClasses,
+      survivedNumberRepartitionByClass,
+      genderRepartitionByClass,
+      ageDistributionByClass
+    ]
   );
 
   useEffect(() => {

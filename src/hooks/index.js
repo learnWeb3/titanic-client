@@ -17,18 +17,31 @@ export const useAlert = () => {
   };
 };
 
-export const useAnchors = (anchorIds, state = null) => {
-  const [anchors, setAnchors] = useState(
-    anchorIds.map((e) => createRef())
-  );
+export const useAnchors = (anchorIds, state = null, otherDependencies = []) => {
+  const [anchors, setAnchors] = useState(anchorIds.map((e) => createRef()));
 
   const scrollTo = (elementRef) => {
     const { top } = elementRef.current.getBoundingClientRect();
-    window.scrollTo({ top, behavior: "smooth" });
+    window.scrollTo(0, top);
   };
 
   useEffect(() => {
-    if (state && state.anchor && anchors && anchors.length) {
+    const dependenciesContentCheck = otherDependencies.reduce((mapping, e) => {
+      if (e !== null) {
+        mapping[true] = true;
+      } else {
+        mapping[false] = true;
+      }
+      return mapping;
+    }, {});
+
+    if (
+      state &&
+      state.anchor &&
+      anchors &&
+      anchors.length &&
+      !dependenciesContentCheck[false]
+    ) {
       anchors.forEach((anchor) => {
         if (
           anchor &&
@@ -36,11 +49,11 @@ export const useAnchors = (anchorIds, state = null) => {
           anchor.current.id &&
           anchor.current.id === state.anchor
         ) {
-          return scrollTo(anchor);
+          scrollTo(anchor);
         }
       });
     }
-  }, [state]);
+  }, [state, ...otherDependencies]);
 
   return {
     anchors,
