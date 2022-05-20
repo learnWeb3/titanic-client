@@ -17,13 +17,14 @@ export const Menu = () => {
   const navigate = useNavigate();
   const handleValue = (event) => {
     const {
-      target: { textContent },
+      target: { innerText },
     } = event;
-    const result = searchResults.find(({ label }) => label === textContent);
+    const result = searchResults.find(({ label }) => label === innerText);
     if (result) {
-      const { label, path, anchor } = result;
-      const urlEncoded = encodeURI(anchor);
-      navigate(`${path}#${urlEncoded}`, {replace: false});
+      const { path, anchor } = result;
+      navigate(`${path}`, { replace: true, state:{
+        anchor
+      } });
     }
   };
   return (

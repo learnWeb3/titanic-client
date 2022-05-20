@@ -5,8 +5,11 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { BarChart } from "../BarChart/index";
 import { HeaderPanel } from "../HeaderPanel/index";
+import { useLocation } from "react-router-dom";
 
 export const PassengerClasses = ({}) => {
+  const { state } = useLocation();
+
   const classes = useSelector((state) => state.classes.classes);
   const [passengerRepartitionByClass, setPassengerRepartitionByClass] =
     useState(null);
@@ -194,7 +197,7 @@ export const PassengerClasses = ({}) => {
 
       <Grid item xs={12} lg={12}>
         <HeaderPanel
-          id={"Genders analysis by class"}
+          id={"genders-analysis-by-class"}
           title={"Genders analysis by class"}
           variant={"h4"}
         />
@@ -215,7 +218,7 @@ export const PassengerClasses = ({}) => {
 
       <Grid item xs={12} lg={12}>
         <HeaderPanel
-          id={"Deaths by genders and classes"}
+          id={"deaths-by-genders-and-classes"}
           title={"Deaths by genders and classes"}
           variant={"h4"}
         />
@@ -253,7 +256,7 @@ export const PassengerClasses = ({}) => {
 
       <Grid item xs={12} lg={12}>
         <HeaderPanel
-          id={"Ages analysis by class"}
+          id={"ages-analysis-by-class"}
           title={"Ages analysis by class"}
           variant={"h4"}
         />

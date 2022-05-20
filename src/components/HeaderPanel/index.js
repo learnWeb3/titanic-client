@@ -38,9 +38,9 @@ export const HeaderPanel = ({
         ...styles,
       }}
     >
-      <Typography id={id} variant={variant} component="h5">
-        {title}
-      </Typography>
+        <Typography variant={variant} component="h5">
+          {title}
+        </Typography>
     </Paper>
   );
 };
