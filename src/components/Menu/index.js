@@ -7,10 +7,25 @@ import WcIcon from "@mui/icons-material/Wc";
 import HomeIcon from "@mui/icons-material/Home";
 import { FormattedMenuItem } from "../FormattedMenuItem";
 import { FormattedMenuHeader } from "../FormattedMenuHeader";
-import { Logout } from "../Logout/index";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { MenuItem } from "@mui/material";
+import { AutocompleField } from "../Autocomplete/inde";
+import { searchResults } from "./helpers";
+import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
+  const navigate = useNavigate();
+  const handleValue = (event) => {
+    const {
+      target: { textContent },
+    } = event;
+    const result = searchResults.find(({ label }) => label === textContent);
+    if (result) {
+      const { label, path, anchor } = result;
+      const urlEncoded = encodeURI(anchor);
+      navigate(`${path}#${urlEncoded}`, {replace: false});
+    }
+  };
   return (
     <Paper
       sx={{
@@ -58,6 +73,25 @@ export const Menu = () => {
           labelVariant={"h6"}
           labelComponent={"p"}
         />
+
+        <MenuItem
+          sx={{
+            padding: "2rem",
+            display: "flex",
+            justifyContent: {
+              xs: "center",
+              lg: "start",
+            },
+            alignItems: "center",
+            color: "white",
+          }}
+        >
+          <AutocompleField
+            label={"Search an analysis"}
+            options={searchResults}
+            setValue={handleValue}
+          />
+        </MenuItem>
       </MenuList>
 
       <MenuList>

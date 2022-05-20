@@ -52,7 +52,7 @@ export const PassengerAge = ({}) => {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={12}>
-        <HeaderPanel title={"Passenger Ages"} variant={"h3"} />
+        <HeaderPanel id={"Passenger Ages"} title={"Passenger Ages"} variant={"h3"} />
       </Grid>
       <Grid item xs={12} lg={12}>
         {ageDistributionData && (

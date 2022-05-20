@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export const HeaderPanel = ({
+  id = "",
   title = "Title",
   variant = "h5",
   paperVariant = null,
@@ -37,7 +38,7 @@ export const HeaderPanel = ({
         ...styles,
       }}
     >
-      <Typography variant={variant} component="h5">
+      <Typography id={id} variant={variant} component="h5">
         {title}
       </Typography>
     </Paper>

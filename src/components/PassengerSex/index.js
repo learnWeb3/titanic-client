@@ -46,20 +46,6 @@ export const PassengerSex = ({}) => {
         };
         const makeCharts = (key = "died") => {
           return Object.keys(mappingKeyToData[key]).map((sex) => {
-            console.log({
-              title: `${key} ${sex} age distribution`,
-              xAxisCategories: mappingKeyToData[key][sex].data.map(
-                ({ age }) => `${age}`
-              ),
-              series: [
-                {
-                  name: "passenger count",
-                  data: mappingKeyToData[key][sex].data.map(
-                    ({ count }) => count
-                  ),
-                },
-              ],
-            });
             return {
               title: `${key} ${sex} age distribution`,
               xAxisCategories: mappingKeyToData[key][sex].data.map(
@@ -92,7 +78,11 @@ export const PassengerSex = ({}) => {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={12}>
-        <HeaderPanel title={"Passenger sexes"} variant={"h3"} />
+        <HeaderPanel
+          title={"Passenger sexes"}
+          variant={"h3"}
+          id={"Passenger sexes"}
+        />
       </Grid>
       <Grid item xs={12} lg={6}>
         {passengerRepartitionBySex && (
@@ -106,13 +96,17 @@ export const PassengerSex = ({}) => {
       </Grid>
 
       <Grid item xs={12} lg={12}>
-        <HeaderPanel title={"Death repartition by gender"} variant={"h4"} />
+        <HeaderPanel
+          title={"Death repartition by gender"}
+          variant={"h4"}
+          id={"Death repartition by gender"}
+        />
       </Grid>
 
       {deathRepartitionBySex &&
         deathRepartitionBySex.length &&
         deathRepartitionBySex.map(({ title, series, labels }) => (
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} lg={6} key={title}>
             <IndicatorPanel
               component={PieChart}
               title={title}
@@ -126,6 +120,7 @@ export const PassengerSex = ({}) => {
         <HeaderPanel
           title={"Died passengers age distribution by gender"}
           variant={"h4"}
+          id={"Died passengers age distribution by gender"}
         />
       </Grid>
 
@@ -146,6 +141,7 @@ export const PassengerSex = ({}) => {
         <HeaderPanel
           title={"Surviving passengers age distribution by gender"}
           variant={"h4"}
+          id={"Surviving passengers age distribution by gender"}
         />
       </Grid>
 

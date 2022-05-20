@@ -43,7 +43,7 @@ Graphique
 
 4. Améliorez maintenant l'analyse des données
 
-Introduisez les éléments suivants dans la rechercher
+Introduisez les éléments suivants dans la recherche
 
 - La moyenne
 
@@ -53,14 +53,15 @@ Introduisez les éléments suivants dans la rechercher
 
 ## Interpretation des consignes
 
-- Utilisant un jeux de donnée fixe les analyse n'ont pas a être réalisées de façon dynamique ce qui nous obligerait a des calculs intensifs inutiles (dans le cadre d'un jeu de données dynamique une approche par collection d'aggregation serait tout a fait pertinente également)
+- Utilisant un jeux de donnée fixes les analyses n'ont pas a être réalisées de façon dynamique ce qui nous obligerait a des calculs intensifs inutiles (dans le cadre d'un jeu de données dynamique une approche par collection d'aggregation serait tout a fait pertinente également)
 - Une étape de seed a donc été mis en place pour insérer les données des passagers et effectuer les analyses sur le jeux de donnée.
-- Afin d'obtenir un temps de réponse correct les analyses sont stockées directement dans une collection séparé, il ne reste plus qu'a les servir sur le front via une API minimaliste utilisant Express JS
+- Afin d'obtenir un temps de réponse correct les analyses sont stockées directement dans une collection séparée, il ne reste plus qu'a les servir a l'interface via une API minimaliste utilisant Express JS
 - L'api est authentifié via un jeton utilisant le standard JWT.
 - Seul un utilisateur connecté peut avoir accès aux analyses.
-- L'ensemble des paramètres de l'API sont filtrés, dans le but de mitiger une evetuelle injection.
+- L'ensemble des paramètres de l'API sont filtrés, dans le but de mitiger une eventuelle injection.
 - Le frontend est constitué d'un serveur node séparé servant une application REACT JS.
-- Afin d'autoriser l'accès au ressource distante sur l'API depuis le frontend (serveur distant), des règles cors ont été mises en place.
+- Afin d'autoriser l'accès aux ressources distantes sur l'API depuis le frontend (serveur distant), des règles cors ont été mises en place.
+- La recherche peut être effectuer au moyen d'une barre de recherche redirigeant l'utilisateur vers la page est la section correspondant a l'analyse souhaitée lors du clique sur un résultat proposé par autocompletion.
 
 ## Démarrage rapide (dev only)
 
