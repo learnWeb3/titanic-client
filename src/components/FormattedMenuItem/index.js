@@ -26,6 +26,8 @@ export const FormattedMenuItem = ({
       <ListItemIcon
         sx={{
           color: "inherit",
+          display:'flex',
+          justifyContent:'center'
         }}
       >
         <Icon fontSize="medium" />

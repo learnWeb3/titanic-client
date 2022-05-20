@@ -48,6 +48,12 @@ export const Menu = () => {
           label={"Menu"}
           labelVariant={"h4"}
           labelComponent={"h2"}
+          sx={{
+            display:{
+              xs: 'none',
+              lg:'flex'
+            }
+          }}
         />
         <FormattedMenuItem
           label={"Home"}
@@ -85,6 +91,10 @@ export const Menu = () => {
             justifyContent: {
               xs: "center",
               lg: "start",
+            },
+            display:{
+              xs: 'none',
+              lg:'flex'
             },
             alignItems: "center",
             color: "white",

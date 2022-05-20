@@ -6,7 +6,8 @@ export const PageLayout = ({ component: Component, ...otherProps }) => {
     <Grid container>
       <Grid
         item
-        xs={3}
+        xs={2}
+        lg={3}
         sx={{
           height: "100vh",
           position: "sticky",
@@ -17,7 +18,8 @@ export const PageLayout = ({ component: Component, ...otherProps }) => {
       </Grid>
       <Grid
         item
-        xs={9}
+        xs={10}
+        lg={9}
         p={4}
         sx={{
           backgroundColor: "#e8eaf6",

@@ -4,6 +4,7 @@ export const FormattedMenuHeader = ({
   label,
   labelVariant,
   labelComponent,
+  sx = {},
 }) => {
   return (
     <MenuItem
@@ -14,6 +15,7 @@ export const FormattedMenuHeader = ({
           cursor: "default",
         },
         color: "white",
+        ...sx,
       }}
     >
       <ListItemText disableTypography={true}>
