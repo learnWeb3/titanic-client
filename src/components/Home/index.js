@@ -1,18 +1,35 @@
-import { Grid, Paper, Typography, InputLabel } from "@mui/material";
+import { Grid, Paper, Typography, InputLabel, Button } from "@mui/material";
 import { AgingPerson } from "../AgingPerson/index";
 import { HeaderPanel } from "../HeaderPanel/index";
 import { RadioGroup } from "../RadioGroup";
 import { InputWithValidation } from "../InputWithValidation/index";
 import InputSlider from "../../InputSlider/index";
 import { useState } from "react";
+import { estimateSurvival } from "../../services/http/requests/index";
+import { useSelector } from 'react-redux';
 
 export const Home = ({}) => {
+  const user = useSelector((state) => state.user.user);
+  const [survival, setSurvival] = useState(null);
   const [age, setAge] = useState(18);
   const handleChangeSex = (value) => {
     setSexCheckedOption(value);
   };
   const handleChangeClass = (value) => {
     setClassesCheckedOption(+value);
+  };
+
+  const handleSurvival = async () => {
+    estimateSurvival({
+      ageMin: Math.floor(age / 10) * 10,
+      ageMax: Math.ceil(age / 10) * 10,
+      sex: sexCheckedOption,
+      class: classesCheckedOption,
+    }, user)
+      .then(({ data, status }) => {
+        setSurvival(data.survival);
+      })
+      .catch((error) => console.error(error));
   };
 
   const [sexCheckedOption, setSexCheckedOption] = useState("male");
@@ -22,7 +39,7 @@ export const Home = ({}) => {
     <Grid container spacing={4}>
       <Grid item xs={12} lg={12}>
         <HeaderPanel
-          title={"As a Titanic passenger, Would you have survived ?"}
+          title={"As a Titanic passenger, would you have survived ?"}
           variant={"h3"}
         />
       </Grid>
@@ -30,8 +47,8 @@ export const Home = ({}) => {
         <Paper
           elevation={3}
           sx={{
-            height: "100%",
             padding: "1.5rem",
+            minHeight: "50vh",
           }}
         >
           <Typography
@@ -86,22 +103,47 @@ export const Home = ({}) => {
           </InputLabel>
           <InputWithValidation label={"Age"} value={age} setValue={setAge} />
           <InputSlider label={"Age"} value={age} setValue={setAge} />
+          <Button
+            sx={{
+              marginTop: "2rem",
+            }}
+            size="large"
+            color="success"
+            variant="contained"
+            onClick={handleSurvival}
+            fullWidth={true}
+          >
+            LETS FIND OUT
+          </Button>
         </Paper>
       </Grid>
       <Grid item xs={12} lg={8}>
         <Paper
           elevation={3}
           sx={{
-            height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             padding: "1.5rem",
+            minHeight: "50vh",
           }}
         >
           <AgingPerson age={age} sex={sexCheckedOption} />
         </Paper>
       </Grid>
+      {survival && (
+        <Grid item xs={12} lg={12}>
+          <HeaderPanel
+            paperVariant={survival < 0.5 ? 'danger' : 'success'}
+            title={
+              survival < 0.5
+                ? "Oh godness !! you would have died on the Titanic"
+                : "Lucky You !! you would have survived"
+            }
+            variant={"h6"}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };

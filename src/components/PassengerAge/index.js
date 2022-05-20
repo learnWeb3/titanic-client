@@ -30,30 +30,16 @@ export const PassengerAge = ({}) => {
           },
         };
         const dataPoints = mappingKeyToProperty[key].property.data.map(
-          ({ count, age }) => ({
-            x: age,
-            y: count,
-          })
+          ({ count }) => count
         );
-        const labels = ages.ageDistribution.data.map(({ age }) => `${age}`);
+        const xAxisCategories = ages.ageDistribution.data.map(({ age }) => `${age}`);
         mappingKeyToProperty[key].set({
-          xAxisCategories: [...labels],
+          xAxisCategories,
           series: [
             {
               name: "passenger count",
               data: [...dataPoints],
-            },
-            {
-              name: 'mean',
-              data: [
-                {
-                  x: mappingKeyToProperty[key].property.mean,
-                  y: mappingKeyToProperty[key].property.maxCount,
-                  fillColor: '#DC143C',
-                  strokeColor: '#C23829'
-                }
-              ]
-            },
+            }
           ],
         });
       };

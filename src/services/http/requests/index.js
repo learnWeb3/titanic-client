@@ -22,17 +22,27 @@ export const login = async (
 export const fetchPassengers = async (token) => {
   return await http.get("/passengers", {
     headers: {
-      "Authorization": `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
 export const fetchStats = async (token, queryParams = {}) => {
   const _queryString = queryString.stringify(queryParams);
-  const uri = !_queryString ? "/passengers/stats" : `/passengers/stats?${_queryString}`;
+  const uri = !_queryString
+    ? "/passengers/stats"
+    : `/passengers/stats?${_queryString}`;
   return await http.get(uri, {
     headers: {
-      "Authorization": `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const estimateSurvival = async (body = {}, token) => {
+  return await http.post(`/passengers/survival`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   });
 };

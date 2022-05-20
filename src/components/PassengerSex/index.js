@@ -45,32 +45,36 @@ export const PassengerSex = ({}) => {
           survived: data.survived,
         };
         const makeCharts = (key = "died") => {
-          return Object.keys(mappingKeyToData[key]).map((sex) => ({
-            title: `${key} ${sex} age distribution`,
-            xAxisCategories: mappingKeyToData[key][sex].data.map(
-              ({ age }) => `${age}`
-            ),
-            series: [
-              {
-                name: "passenger count",
-                data: [...mappingKeyToData[key][sex].data.map(({ count, age }) => ({
-                  x: age,
-                  y: count,
-                }))],
-              },
-              {
-                name: 'mean',
-                data: [
-                  {
-                    x: mappingKeyToData[key][sex].mean,
-                    y: mappingKeyToData[key][sex].maxCount,
-                    fillColor: '#DC143C',
-                    strokeColor: '#C23829'
-                  }
-                ]
-              }
-            ],
-          }));
+          return Object.keys(mappingKeyToData[key]).map((sex) => {
+            console.log({
+              title: `${key} ${sex} age distribution`,
+              xAxisCategories: mappingKeyToData[key][sex].data.map(
+                ({ age }) => `${age}`
+              ),
+              series: [
+                {
+                  name: "passenger count",
+                  data: mappingKeyToData[key][sex].data.map(
+                    ({ count }) => count
+                  ),
+                },
+              ],
+            });
+            return {
+              title: `${key} ${sex} age distribution`,
+              xAxisCategories: mappingKeyToData[key][sex].data.map(
+                ({ age }) => `${age}`
+              ),
+              series: [
+                {
+                  name: "passenger count",
+                  data: mappingKeyToData[key][sex].data.map(
+                    ({ count }) => count
+                  ),
+                },
+              ],
+            };
+          });
         };
         const charts = {
           died: makeCharts("died"),
@@ -127,13 +131,13 @@ export const PassengerSex = ({}) => {
 
       {ageDistributionBySex &&
         ageDistributionBySex.died &&
-        ageDistributionBySex.died.map(({ title, series, labels }) => (
+        ageDistributionBySex.died.map(({ title, series, xAxisCategories }) => (
           <Grid item xs={12} lg={6} key={title}>
             <IndicatorPanel
               component={BarChart}
               title={title}
               series={series}
-              labels={labels}
+              xAxisCategories={xAxisCategories}
             />
           </Grid>
         ))}
@@ -147,16 +151,18 @@ export const PassengerSex = ({}) => {
 
       {ageDistributionBySex &&
         ageDistributionBySex.survived &&
-        ageDistributionBySex.survived.map(({ title, series, labels }) => (
-          <Grid item xs={12} lg={6} key={title}>
-            <IndicatorPanel
-              component={BarChart}
-              title={title}
-              series={series}
-              labels={labels}
-            />
-          </Grid>
-        ))}
+        ageDistributionBySex.survived.map(
+          ({ title, series, xAxisCategories }) => (
+            <Grid item xs={12} lg={6} key={title}>
+              <IndicatorPanel
+                component={BarChart}
+                title={title}
+                series={series}
+                xAxisCategories={xAxisCategories}
+              />
+            </Grid>
+          )
+        )}
     </Grid>
   );
 };

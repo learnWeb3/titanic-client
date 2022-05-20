@@ -15,6 +15,8 @@ export const PassengerClasses = ({}) => {
   const [deathNumberRepartitionByClass, setDeathNumberRepartitionByClass] =
     useState(null);
 
+  const [deathRepartitionByGenderAndClasses, setDeathRepartitionByGenderAndClasses] = useState(null);
+
   const [
     survivedNumberRepartitionByClass,
     setSurvivedNumberRepartitionByClass,
@@ -52,6 +54,23 @@ export const PassengerClasses = ({}) => {
         });
       };
 
+      const deathRepartitionByGenderAndClassesCharts = () =>{
+          const data = classes.deathRepartitionByGenderAndClasses
+          const charts = {
+            male: [],
+            female: []
+          }
+          Object.keys(data).map((gender)=>{
+            const passengerClasses = Object.keys(data[gender]);
+            charts[gender] = passengerClasses.map((passengerClass)=>({
+              series: data[gender][passengerClass].map(({count})=>count),
+              labels: data[gender][passengerClass].map(({survived}) => survived ? "survived" : "died"),
+              title: `${gender} death repartition in passenger class ${passengerClass}`
+            }))
+          });
+          setDeathRepartitionByGenderAndClasses(charts)
+      }
+
       const survivedNumberRepartitionByClassChart = () => {
         const data = classes.deathRepartition;
         const _labels = Object.keys(data);
@@ -86,21 +105,7 @@ export const PassengerClasses = ({}) => {
             series: [
               {
                 name: "passenger count",
-                data: data.died[_class].data.map(({ count, age }) => ({
-                  x: age,
-                  y: count,
-                })),
-              },
-              {
-                name: "mean",
-                data: [
-                  {
-                    x: data.died[_class].mean,
-                    y: data.died[_class].maxCount,
-                    fillColor: "#DC143C",
-                    strokeColor: "#C23829",
-                  },
-                ],
+                data: data.died[_class].data.map(({ count }) =>count),
               },
             ],
           })
@@ -115,21 +120,7 @@ export const PassengerClasses = ({}) => {
             series: [
               {
                 name: "passenger count",
-                data: data.survived[_class].data.map(({ count, age }) => ({
-                  x: age,
-                  y: count,
-                })),
-              },
-              {
-                name: "mean",
-                data: [
-                  {
-                    x: data.survived[_class].mean,
-                    y: data.survived[_class].maxCount,
-                    fillColor: "#DC143C",
-                    strokeColor: "#C23829",
-                  },
-                ],
+                data: data.survived[_class].data.map(({ count }) =>count)
               }
             ],
           })
@@ -143,6 +134,7 @@ export const PassengerClasses = ({}) => {
 
       passengerRepartitionByClassChart();
       deathNumberRepartitionByClassChart();
+      deathRepartitionByGenderAndClassesCharts();
       survivedNumberRepartitionByClassChart();
       genderRepartitionByClassCharts();
       ageDistributionByClassAndSurvivalsCharts();
@@ -207,6 +199,42 @@ export const PassengerClasses = ({}) => {
             )}
           </Grid>
         ))}
+
+
+      <Grid item xs={12} lg={12}>
+        <HeaderPanel title={"Deaths by genders and classes"} variant={"h4"} />
+      </Grid>
+
+      {deathRepartitionByGenderAndClasses && deathRepartitionByGenderAndClasses.male &&
+        deathRepartitionByGenderAndClasses.male.map(({ title, labels, series }, index) => (
+          <Grid item xs={12} lg={6}>
+            {passengerRepartitionByClass && (
+              <IndicatorPanel
+                key={index}
+                component={PieChart}
+                title={title}
+                labels={labels}
+                series={series}
+              />
+            )}
+          </Grid>
+        ))}
+
+{deathRepartitionByGenderAndClasses && deathRepartitionByGenderAndClasses.female &&
+        deathRepartitionByGenderAndClasses.female.map(({ title, labels, series }, index) => (
+          <Grid item xs={12} lg={6}>
+            {passengerRepartitionByClass && (
+              <IndicatorPanel
+                key={index}
+                component={PieChart}
+                title={title}
+                labels={labels}
+                series={series}
+              />
+            )}
+          </Grid>
+        ))}
+
 
       <Grid item xs={12} lg={12}>
         <HeaderPanel title={"Ages"} variant={"h4"} />
