@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { IndicatorPanel } from "../IndicatorPanel";
 import { PieChart } from "../PieChart/index";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createRef } from "react";
 import { BarChart } from "../BarChart/index";
 import { HeaderPanel } from "../HeaderPanel/index";
 import { useLocation } from "react-router-dom";
@@ -148,6 +148,68 @@ export const PassengerClasses = ({}) => {
     }
   }, [classes]);
 
+  const passengerClassRef = createRef();
+  const deathAnalysisRef = createRef();
+  const gendersAnalysisByClassRef = createRef();
+  const deathsByGendersAndClassesRef = createRef();
+  const ageAnalysisByClassRef = createRef();
+
+  useEffect(() => {
+    if (
+      state &&
+      passengerClassRef &&
+      state.anchor === passengerClassRef.current.id
+    ) {
+      const { top } = passengerClassRef.current.getBoundingClientRect();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [state, passengerClassRef]);
+
+  useEffect(() => {
+    if (
+      state &&
+      deathAnalysisRef &&
+      state.anchor === deathAnalysisRef.current.id
+    ) {
+      const { top } = deathAnalysisRef.current.getBoundingClientRect();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [state, deathAnalysisRef]);
+
+  useEffect(() => {
+    if (
+      state &&
+      gendersAnalysisByClassRef &&
+      state.anchor === gendersAnalysisByClassRef.current.id
+    ) {
+      const { top } = gendersAnalysisByClassRef.current.getBoundingClientRect();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [state, gendersAnalysisByClassRef]);
+
+  useEffect(() => {
+    if (
+      state &&
+      deathsByGendersAndClassesRef &&
+      state.anchor === deathsByGendersAndClassesRef.current.id
+    ) {
+      const { top } =
+        deathsByGendersAndClassesRef.current.getBoundingClientRect();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [state, deathsByGendersAndClassesRef]);
+
+  useEffect(() => {
+    if (
+      state &&
+      ageAnalysisByClassRef &&
+      state.anchor === ageAnalysisByClassRef.current.id
+    ) {
+      const { top } = ageAnalysisByClassRef.current.getBoundingClientRect();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [state, ageAnalysisByClassRef]);
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={12}>
@@ -155,6 +217,7 @@ export const PassengerClasses = ({}) => {
           id={"passenger-classes"}
           title={"Passenger classes"}
           variant={"h3"}
+          ref={passengerClassRef}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -172,6 +235,7 @@ export const PassengerClasses = ({}) => {
           id={"deaths-analysis-by-class"}
           title={"Deaths analysis by class"}
           variant={"h4"}
+          ref={deathAnalysisRef}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -200,6 +264,7 @@ export const PassengerClasses = ({}) => {
           id={"genders-analysis-by-class"}
           title={"Genders analysis by class"}
           variant={"h4"}
+          ref={gendersAnalysisByClassRef}
         />
       </Grid>
 
@@ -221,6 +286,7 @@ export const PassengerClasses = ({}) => {
           id={"deaths-by-genders-and-classes"}
           title={"Deaths by genders and classes"}
           variant={"h4"}
+          ref={deathsByGendersAndClassesRef}
         />
       </Grid>
 
@@ -259,6 +325,7 @@ export const PassengerClasses = ({}) => {
           id={"ages-analysis-by-class"}
           title={"Ages analysis by class"}
           variant={"h4"}
+          ref={ageAnalysisByClassRef}
         />
       </Grid>
 

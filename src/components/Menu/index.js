@@ -22,9 +22,12 @@ export const Menu = () => {
     const result = searchResults.find(({ label }) => label === innerText);
     if (result) {
       const { path, anchor } = result;
-      navigate(`${path}`, { replace: true, state:{
-        anchor
-      } });
+      navigate(`${path}`, {
+        replace: true,
+        state: {
+          anchor,
+        },
+      });
     }
   };
   return (
