@@ -6,7 +6,7 @@ import { InputWithValidation } from "../InputWithValidation/index";
 import InputSlider from "../../InputSlider/index";
 import { useState } from "react";
 import { estimateSurvival } from "../../services/http/requests/index";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 export const Home = ({}) => {
   const user = useSelector((state) => state.user.user);
@@ -20,12 +20,15 @@ export const Home = ({}) => {
   };
 
   const handleSurvival = async () => {
-    estimateSurvival({
-      ageMin: Math.floor(age / 10) * 10,
-      ageMax: Math.ceil(age / 10) * 10,
-      sex: sexCheckedOption,
-      class: classesCheckedOption,
-    }, user)
+    estimateSurvival(
+      {
+        ageMin: Math.floor(age / 10) * 10,
+        ageMax: Math.ceil(age / 10) * 10,
+        sex: sexCheckedOption,
+        class: classesCheckedOption,
+      },
+      user
+    )
       .then(({ data, status }) => {
         setSurvival(data.survival);
       })
@@ -39,8 +42,27 @@ export const Home = ({}) => {
     <Grid container spacing={4}>
       <Grid item xs={12} lg={12}>
         <HeaderPanel
-          title={"As a Titanic passenger, would you have survived ?"}
+          title={"Titanic passenger sample dataset analysis"}
           variant={"h3"}
+        />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <HeaderPanel
+          title={`Titanic, in full Royal Mail Ship (RMS) Titanic, British luxury passenger liner that sank on April 14–15, 1912, during its maiden voyage, en route to New York City from Southampton, England, killing about 1,500 (see Researcher’s Note: Titanic) passengers and ship personnel. One of the most famous tragedies in modern history, it inspired numerous stories, several films, and a musical and has been the subject of much scholarship and scientific speculation.`}
+          variant={"h6"}
+        />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <HeaderPanel
+          title='The exact number of people killed is unknown. Original passenger and crew lists were rendered inaccurate by such factors as misspellings, omissions, aliases, and failure to count musicians and other contracted employees as either passengers or crew members. However, it is generally believed that of the ship’s approximately 2,200 passengers and crew members, some 1,500 people perished when the ship sank. According to the U.S. committee investigating the sinking, 1,517 lives were lost, and its British counterpart determined that 1,503 died. The crew suffered the most casualties, with about 700 fatalities. 
+          Third class also suffered greatly, as only 174 of its approximately 710 passengers survived.'
+          variant={"h6"}
+        />
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <HeaderPanel
+          title={"As a Titanic passenger, would you have survived ?"}
+          variant={"h4"}
         />
       </Grid>
       <Grid item xs={12} lg={4}>
@@ -134,7 +156,7 @@ export const Home = ({}) => {
       {survival && (
         <Grid item xs={12} lg={12}>
           <HeaderPanel
-            paperVariant={survival < 0.5 ? 'danger' : 'success'}
+            paperVariant={survival < 0.5 ? "danger" : "success"}
             title={
               survival < 0.5
                 ? "Oh godness !! you would have died on the Titanic"

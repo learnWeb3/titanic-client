@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import { IndicatorPanel } from "../IndicatorPanel";
 import { PieChart } from "../PieChart/index";
-import { ColumnChart } from "../ColumnChart/index";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { BarChart } from "../BarChart/index";
